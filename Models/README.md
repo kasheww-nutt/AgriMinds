@@ -1,16 +1,7 @@
-# Model Artifacts
+# Model Files
 
-Model binaries are intentionally excluded from normal Git history.
+Model weights are kept out of normal Git history.
 
-Every approved champion should eventually be distributed with a model card containing:
+A final model will be published only after it has a model card containing its crop, classes, architecture, preprocessing steps, split version, training seed, validation rule, test report, confidence settings, file hash, mobile benchmark, and known failure cases.
 
-- crop, supported classes, architecture, and preprocessing version;
-- dataset/split manifest identity and training seed;
-- validation selection metric and sealed test report;
-- calibration and uncertainty policy;
-- checkpoint SHA-256 hash and export format;
-- latency, RAM, storage, and target-device benchmarks;
-- known failure modes and intended/non-intended uses.
-
-Legacy `.pt` files may remain in local working folders, but they are ignored by Git and are not production artifacts.
-
+The `.pt` files currently stored in local crop folders belong to the old experiments. Git ignores them, and they should not be treated as final application models.

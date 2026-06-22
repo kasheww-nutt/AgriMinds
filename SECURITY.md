@@ -1,10 +1,9 @@
-# Security Policy
+# Security
 
-AgriMinds is currently a private research project.
+AgriMinds is currently a private research repository.
 
-Do not commit API keys, service-account files, private certificates, personal datasets, precise farm locations, or identifiable farmer images. Use local environment variables for development secrets and protected server-side secret storage for deployed services.
+Do not commit API keys, certificates, service-account files, private datasets, precise farm locations, or identifiable farmer images. Development secrets should use local environment variables. Deployed secrets should use protected server-side storage.
 
-Model checkpoints are treated as supply-chain artifacts. Production candidates require an expected architecture, class-map identity, preprocessing specification, split identity, and SHA-256 hash. Load PyTorch weights using the safest supported weights-only mechanism and never load untrusted serialized checkpoints.
+Final model files should be checked against their expected architecture, class map, preprocessing settings, split version, and SHA-256 hash. Do not load model files from an unknown source.
 
-Security issues should be reported privately to the repository owner rather than opened as public issues while the repository remains private.
-
+Report security problems privately to the repository owner while the project remains private.

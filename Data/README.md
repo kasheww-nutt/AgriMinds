@@ -1,8 +1,7 @@
-# Data
+# Dataset Notes
 
-Datasets are not committed to this repository.
+The image dataset is not stored in this repository.
 
-Corrected notebooks expect `AGRIMINDS_DATA_ROOT` to point to a directory containing crop subdirectories. Dataset acquisition, licensing, attribution, preprocessing, integrity checks, and split manifests must be documented before a public release.
+Corrected notebooks read the dataset location from `AGRIMINDS_DATA_ROOT`. The folder should contain one subdirectory for each crop.
 
-Do not place raw or processed images in Git history. Generated split manifests and audit summaries may be versioned only when they contain no restricted paths or sensitive metadata.
-
+Before a public release, the project needs a clear record of where every dataset came from, what license applies, how images were cleaned, and how the final splits were created. Raw and processed images should never be committed to Git.

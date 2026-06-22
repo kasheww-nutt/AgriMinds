@@ -1,32 +1,31 @@
-# AgriMinds Roadmap
+# Project Roadmap
 
-## Phase 1 — Repository and evidence hygiene
+## 1. Clean up the project
 
-Prepare a private, reviewable repository; separate maintained documentation from historical notes; exclude datasets, secrets, generated artifacts, and model binaries from normal Git history; record decisions and known limitations honestly.
+Keep the repository private, separate current documentation from old notes, and make sure datasets, secrets, generated files, and model weights are not added to normal Git history.
 
-## Phase 2 — Correct the six crop pipelines
+## 2. Correct all six crop notebooks
 
-Preserve legacy notebooks, build shared training logic, retrain all existing architectures under persisted stratified splits, select checkpoints by validation macro-F1, calibrate confidence, and publish single-pass test reports and model cards.
+The old notebooks stay as a record of the original experiments. Each crop will receive a corrected runner that follows the same split, training, checkpoint, calibration, and evaluation rules.
 
-Potato is the first corrected runner. Grape, Maize, Rice, Tomato, and Wheat follow after the Potato pipeline passes a clean-kernel execution review.
+Potato is the first corrected notebook. Grape, Maize, Rice, Tomato, and Wheat will follow after Potato runs successfully from a clean kernel.
 
-## Phase 3 — Dataset audit
+## 3. Review the dataset
 
-After explicit approval, inspect corrupt files, exact and near duplicates, source leakage, class imbalance, label consistency, acquisition groups, background bias, and external-field coverage. Rebuild manifests if the audit changes dataset membership.
+Dataset work starts only after the model pipeline is stable. The review will check corrupt images, duplicate images, labels, class balance, source leakage, background bias, and field-image coverage.
 
-## Phase 4 — Android model delivery
+## 4. Test models on Android
 
-Export six champions, verify Python/Android preprocessing parity using golden images, benchmark package size, RAM, cold start, latency, battery, and thermal behaviour on representative low-cost devices, then choose validated precision/compression formats.
+The six final models will be exported and checked against Python using the same test images. Package size, startup time, inference speed, RAM, battery use, and heat will be measured on realistic low-cost phones.
 
-## Phase 5 — Evidence-aware diagnosis
+## 5. Add guided multi-image diagnosis
 
-Add guided multi-image capture, blur/exposure/coverage checks, near-duplicate rejection, calibrated confidence-weighted consensus, contradiction handling, and targeted reacquisition instructions. Keep the interaction simple even when internal evidence logic is complex.
+The app will guide the farmer through useful views, reject blurry or repeated images, combine reliable predictions, and ask for another photograph when the evidence conflicts.
 
-## Phase 6 — Care and progression loop
+## 6. Add care plans and progress tracking
 
-Ground treatment protocols in expert-reviewed agricultural sources, create local care tasks and reminders, collect comparable follow-up evidence, report improving/stable/worsening states, and escalate unreliable or worsening cases.
+Accepted diagnoses can start a care plan based on reviewed agricultural information. The app will schedule reminders, collect follow-up photographs, and show whether the plant appears to be improving, stable, or worsening.
 
-## Phase 7 — Validation and release
+## 7. Field testing
 
-Run external field evaluation, expert review, safety testing, accessibility/localization checks, privacy review, and staged pilot deployment. “Production validated” remains prohibited until these gates are passed.
-
+Before calling the system production-ready, it needs field images, agricultural expert review, safety checks, language and accessibility testing, privacy review, and a limited pilot with real users.

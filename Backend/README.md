@@ -1,6 +1,5 @@
 # Backend
 
-No production backend exists yet.
+There is no production backend yet.
 
-The planned backend is limited to protected advisory services, expert escalation, synchronization, and optional grounded language generation. Core crop diagnosis remains local-first. Permanent third-party API credentials must never be shipped in the Android client.
-
+The planned backend may handle protected language-service calls, synchronization, and expert consultation. The crop diagnosis itself is intended to remain local-first. API keys and service credentials must stay on the server and must not be included in the Android app.

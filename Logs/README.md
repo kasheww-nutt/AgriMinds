@@ -1,4 +1,3 @@
 # Logs
 
-Runtime and experiment logs are generated locally and ignored by Git. Commit only reviewed, anonymized summaries that are necessary to reproduce a published result.
-
+Training and runtime logs stay local and are ignored by Git. Only small, reviewed summaries needed to reproduce a published result should be committed. Logs must not contain private images, farm locations, credentials, or personal information.

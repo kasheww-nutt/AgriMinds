@@ -1,6 +1,5 @@
-# Deployment
+# Deployment Notes
 
-Deployment work begins after corrected champions exist.
+Deployment work starts after the corrected crop models are ready.
 
-Required gates include model export verification, Python/mobile tensor parity, class-map integrity, package-size measurement, cold/warm latency, peak RAM, battery/thermal testing, malformed-image handling, offline behaviour, and representative low-cost Android device benchmarks.
-
+Before a model enters the app, its output must match Python on a fixed set of test images. The project will also measure package size, startup time, inference speed, peak memory, battery use, heat, offline behaviour, and malformed-image handling on representative Android phones.

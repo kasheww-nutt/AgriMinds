@@ -1,25 +1,27 @@
 # AgriMinds
 
-AgriMinds is an offline-first plant disease diagnosis and crop-care project built around crop-specific deep-learning models. The current research covers six crops—Grape, Maize, Potato, Rice, Tomato, and Wheat—and explores reliable diagnosis, explainability, severity estimation, and longitudinal treatment tracking for farmers using affordable Android devices.
+AgriMinds is a plant disease detection project built for farmers who may not have access to expensive phones or reliable internet. The project uses a separate model for each supported crop so diagnosis can eventually run directly on an Android device.
 
-> **Current status:** research hardening and validation. AgriMinds is not yet an agriculturally validated production diagnostic system, and its outputs must not replace qualified agricultural advice.
+The project currently supports Grape, Maize, Potato, Rice, Tomato, and Wheat.
 
-## Why AgriMinds
+> AgriMinds is still being tested and improved. It should not be treated as a replacement for advice from an agricultural expert.
 
-Many plant-disease classifiers stop at a single prediction. AgriMinds is being designed as a complete evidence-and-recovery workflow:
+## What the project is trying to solve
 
-1. capture one or more guided leaf images;
-2. validate image quality and evidence diversity;
-3. diagnose using a project-owned crop model;
-4. explain the model's attention and reject uncertain cases;
-5. provide grounded, reviewable care guidance;
-6. schedule follow-ups and track whether the plant improves.
+A farmer should be able to select a crop, photograph an affected leaf, and receive a useful result without needing to understand machine learning. The long-term flow is simple:
 
-The core diagnosis remains under project control. Any future generative-AI integration is limited to explaining and localizing already-verified results; it must not override the trained crop model or invent treatment dosages.
+1. Take clear photographs of the affected plant.
+2. Check whether the photographs are usable and show different views.
+3. Run the correct crop model.
+4. Show the likely disease, confidence, and an explanation of the result.
+5. Ask for another photograph when the result is uncertain.
+6. Help the farmer follow treatment steps and record whether the plant improves.
 
-## Supported crops and legacy baselines
+The disease prediction will come from models trained and evaluated in this project. A future language service may explain an accepted result in the farmer's language, but it will not be allowed to replace the model's diagnosis or invent chemical dosages.
 
-| Crop | Classes | Current architecture | Historical notebook test accuracy* |
+## Crops and current models
+
+| Crop | Classes | Current model | Result saved in the old notebook* |
 |---|---:|---|---:|
 | Grape | 4 | ResNet18 | ~100% |
 | Maize | 4 | ResNet18 | ~94% |
@@ -28,86 +30,80 @@ The core diagnosis remains under project control. Any future generative-AI integ
 | Tomato | 4 | ResNet18 | ~98% |
 | Wheat | 4 | ResNet18 | ~88% |
 
-\*These figures are preserved from historical notebook outputs. They were produced before the current reproducibility and validation audit and must not be treated as production claims.
+\*These numbers are included only as a record of earlier experiments. The old notebooks were created before the current audit, so the numbers are not being presented as final or production-ready results.
 
-## Current engineering direction
+## Current work
 
-AgriMinds uses one champion model per crop rather than a heavy always-on ensemble. Only the selected crop model should be loaded during Android inference. Official production evaluation will use a single forward pass matching mobile preprocessing; test-time augmentation and ensemble experiments remain research comparisons.
+The existing notebooks are being reviewed and rebuilt one crop at a time. The corrected training process will use fixed stratified splits, repeatable seeds, separate transforms, macro-F1 checkpoint selection, confidence calibration, and a final single-pass test that matches mobile inference.
 
-The corrected pipeline is being standardized around:
+The first corrected notebook is [`Notebooks/crop approach/potato_corrected.ipynb`](Notebooks/crop%20approach/potato_corrected.ipynb). The original notebooks under `crops/` are kept as a record of the earlier work.
 
-- deterministic execution and persisted stratified splits;
-- independent train, validation, and test transforms;
-- macro-F1 checkpoint selection across all training phases;
-- calibrated confidence and explicit uncertainty rejection;
-- safe checkpoint/class-map verification;
-- Android/Python preprocessing parity;
-- Grad-CAM++ as explanation, not lesion segmentation;
-- separately validated severity and follow-up tracking.
+The Android plan is to keep one final model for each crop and load only the model selected by the farmer. Running several large models for every photograph is not part of the current production plan.
 
-The first corrected crop runner is [`Notebooks/crop approach/potato_corrected.ipynb`](Notebooks/crop%20approach/potato_corrected.ipynb). Existing notebooks under `crops/` are retained as legacy experiments.
-
-## Repository map
+## Repository layout
 
 ```text
 AgriMinds/
-├── Backend/          # Future advisory/API services; diagnosis remains local-first
-├── Data/             # Dataset documentation only; image data is not committed
-├── Deployment/       # Android/export/benchmarking plans
-├── Docs/             # Maintained architecture, roadmap, and limitations
-├── Frontend/         # Future FarmWise web/mobile interface documentation
-├── Models/           # Model cards and artifact policy; weights are not normal Git files
-├── Notebooks/        # Corrected crop runners and research notebooks
-├── crops/            # Legacy crop notebooks, class maps, and local checkpoints
-├── md files/         # Internal historical notes pending consolidation
-└── SML LOGIC/        # Historical ensemble research
+??? Backend/          # Notes for future online services
+??? Data/             # Dataset instructions; image data is not stored here
+??? Deployment/       # Export and Android testing plans
+??? Docs/             # Maintained project documentation
+??? Frontend/         # Notes for the FarmWise application
+??? Models/           # Model artifact rules and future model cards
+??? Notebooks/        # Corrected and reusable notebooks
+??? crops/            # Original crop experiments and class maps
+??? md files/         # Older project notes waiting to be reviewed
+??? SML LOGIC/        # Earlier ensemble experiment
 ```
 
-## Local setup
+## Running the notebooks
 
-Python 3.12 is the current research environment.
+Python 3.12 is currently used for the research environment.
 
 ```bash
 python -m venv .venv
+
 # Windows PowerShell
 .venv\Scripts\Activate.ps1
+
 pip install -r requirements.txt
 jupyter lab
 ```
 
-Datasets are intentionally excluded. Point corrected notebooks to the parent directory containing the six crop folders:
+The dataset is not included in this repository. Set `AGRIMINDS_DATA_ROOT` to the folder containing the crop directories:
 
 ```powershell
 $env:AGRIMINDS_DATA_ROOT = "D:\path\to\prepro_pbl_dataset"
 ```
 
-Expected shape:
-
 ```text
 prepro_pbl_dataset/
-├── grape/
-├── maize/
-├── potato/
-├── rice/
-├── tomato/
-└── wheat/
+??? grape/
+??? maize/
+??? potato/
+??? rice/
+??? tomato/
+??? wheat/
 ```
 
-## Model and data policy
+## Files that are not committed
 
-Datasets, generated artifacts, API credentials, and local environment files are excluded from Git. PyTorch/ONNX/TFLite checkpoints are also excluded from normal Git history; approved champion weights should later be distributed through a versioned artifact mechanism after integrity and licensing review.
+The repository does not commit datasets, generated outputs, API credentials, local environment files, or model checkpoints. Approved model files will be published separately after their results, file hashes, and usage rights have been checked.
 
-No dataset is redistributed by this repository. Every contributor is responsible for verifying the license and attribution requirements of their data sources.
+The original data sources also need a proper licensing and attribution review before any public release.
 
-## Product roadmap
+## Planned application features
 
-The immediate goal is to correct and retrain all six crop pipelines. Later stages add Android model parity, guided multi-image consensus, uncertainty-aware care guidance, expert-reviewed treatment protocols, reminders, and disease progression tracking. See [`Docs/ROADMAP.md`](Docs/ROADMAP.md).
+After the six crop models are corrected, the project will move toward Android testing, guided multi-image diagnosis, uncertain-result handling, treatment reminders, follow-up photographs, and disease progress tracking. The order of work is recorded in [`Docs/ROADMAP.md`](Docs/ROADMAP.md).
 
-## Responsible use
+## Important limitations
 
-AgriMinds can produce incorrect predictions, especially for field images, unsupported crops, unfamiliar diseases, poor lighting, or visually similar symptoms. Chemical recommendations must be grounded in approved regional guidance and reviewed by qualified experts. Low-confidence and contradictory cases must be rejected or escalated rather than forced into a diagnosis.
+The models can be wrong. Results may change with poor lighting, complex field backgrounds, unsupported crops, unfamiliar diseases, nutrient deficiencies, pests, or damaged leaves. Low-confidence and contradictory results should be rejected instead of turned into confident treatment advice.
 
-## Intellectual property and licensing
+Grad-CAM images show which regions influenced a prediction. They do not directly measure infected area. Severity estimates will remain experimental until they are compared against expert-labelled examples.
 
-This repository is currently intended to remain **private** while the project evaluates patent-sensitive workflow ideas. No open-source license has been selected. Do not redistribute the code, model artifacts, or unpublished invention details without the owner's permission.
+Treatment information must come from reviewed agricultural sources. The application should never invent pesticide names, concentrations, or schedules.
 
+## Repository status
+
+This repository is private while the project reviews its research results and possible intellectual-property work. No open-source license has been selected. Please do not redistribute the code, models, or unpublished project ideas without permission.

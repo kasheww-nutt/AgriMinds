@@ -1,6 +1,5 @@
-# Frontend
+# FarmWise Application
 
-The FarmWise interface is planned to provide crop selection, guided multi-image capture, uncertainty-aware diagnosis, evidence explanation, care tasks, reminders, follow-up scans, and expert escalation.
+The planned application will include crop selection, guided image capture, disease results, uncertain-result handling, care reminders, follow-up photographs, progress history, and expert consultation.
 
-This directory currently contains documentation only; no production web or Android source has been committed.
-
+No production web or Android code has been added to this repository yet.

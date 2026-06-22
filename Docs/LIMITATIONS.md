@@ -1,32 +1,31 @@
 # Known Limitations
 
-AgriMinds is a research project under active correction. The following limitations are product and safety constraints, not cosmetic backlog.
+AgriMinds is still a research project. These issues need to be addressed before it can be trusted in production.
 
-## Evidence quality
+## Older results
 
-Historical results come from notebook experiments whose splitting, reproducibility, TTA usage, and checkpoint selection are being audited. Metrics from legacy notebooks are not directly comparable with corrected production candidates.
+The results saved in the original notebooks were produced before the current audit. Some notebooks used different splitting, checkpoint, and test-time augmentation choices, so their numbers should not be compared directly with the corrected models.
 
-## Dataset generalization
+## Field conditions
 
-The project includes benchmark-style leaf imagery and may learn acquisition backgrounds or laboratory conditions. Performance on farms, different phones, growth stages, mixed symptoms, pests, nutrient deficiencies, and unfamiliar diseases is not yet established.
+Many training images are cleaner than photographs taken on a farm. Different phones, lighting, soil backgrounds, growth stages, pests, nutrient problems, and mixed diseases may reduce accuracy.
 
-## Forced classification
+## Unknown inputs
 
-Legacy classifiers always choose a known class. Production inference must reject unsupported crops, non-leaf images, unfamiliar disease patterns, low-quality evidence, and low-confidence results.
+The old classifiers always choose one of their known labels. The application needs a safe way to reject the wrong crop, non-leaf photographs, unknown diseases, poor images, and weak predictions.
 
 ## Confidence
 
-Raw softmax scores are not reliable probabilities. Confidence must be calibrated on validation data and monitored after deployment.
+A large softmax score does not automatically mean that a prediction is reliable. Confidence needs to be calibrated and checked again when the models are tested outside the training environment.
 
-## Explainability and severity
+## Grad-CAM and severity
 
-Grad-CAM visualizes influential regions but does not prove biological causation or affected area. Severity estimates require expert-labelled validation and must support refusal when evidence is inadequate.
+A Grad-CAM heatmap is an explanation of model attention. It is not proof of disease or a direct measurement of damaged leaf area. Severity requires separate labels and expert review.
 
-## Treatment safety
+## Treatment guidance
 
-Incorrect pesticide, fertilizer, concentration, timing, or crop-stage advice can cause harm. Care guidance must come from reviewed, versioned sources and include local regulatory and label constraints. Generative output cannot be the sole authority.
+Wrong chemical or fertilizer advice can damage crops and create safety risks. Treatment information needs reviewed sources, version history, regional checks, and clear escalation to an expert when the diagnosis is uncertain.
 
-## Deployment
+## Android performance
 
-The target APK size, on-device latency, RAM use, and model compatibility have not yet been measured on representative farmer devices. Model inclusion decisions remain provisional until those benchmarks exist.
-
+The models have not yet been benchmarked on the low-cost phones the project is designed for. Final decisions about model format and packaging will be made after measuring size, speed, memory, battery use, and heat.
