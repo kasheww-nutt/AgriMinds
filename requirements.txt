@@ -1,0 +1,13 @@
+# Research dependencies. Exact versions will be locked after the corrected
+# six-crop pipeline completes a clean reproducibility run.
+torch
+torchvision
+numpy
+pillow
+matplotlib
+scikit-learn
+opencv-python
+torchcam
+jupyterlab
+ipykernel
+

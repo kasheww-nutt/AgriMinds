@@ -1,0 +1,57 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Python and Jupyter
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# Datasets and generated data
+Dataset/
+dataset/
+Data/*
+!Data/README.md
+raw_data/
+processed_data/
+artifacts/
+outputs/
+Logs/*
+!Logs/README.md
+
+# Model binaries: distribute approved champions separately
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.tflite
+*.torchscript
+
+# Mobile/web build output
+.gradle/
+build/
+**/build/
+.idea/
+local.properties
+node_modules/
+dist/
+.next/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+.vscode/
+
