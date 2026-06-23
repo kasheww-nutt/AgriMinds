@@ -25,7 +25,7 @@ Latest context-pack commit at creation: `6669f2f`
 | Dataset audit | Not authorized | Do not inspect without explicit request |
 | Multi-seed Potato conclusion | Incomplete | Latest artifact is one run; seeds must be compared |
 | Clean final holdout | Missing | Current Potato test has influenced development |
-| Safe five-panel report | Not implemented | Design discussed; segmentation/severity gates needed |
+| Safe leaf/symptom segmentation report | Implemented in Potato notebook / execution pending | Five-panel report code and dataset demo cell added to `Notebooks/crop approach/potato_corrected.ipynb`; run in user notebook environment |
 | Severity validation | Not started | Requires expert-labelled subset |
 | Guided multi-image diagnosis | Proposed | No aggregation implementation or UX yet |
 | Treatment tracking/reminders | Proposed | No app implementation yet |
@@ -61,13 +61,30 @@ Latest context-pack commit at creation: `6669f2f`
 
 ## Ordered next work
 
-1. Finish and commit this context pack.
-2. Extract reusable Potato logic into a shared package without changing behaviour.
-3. Add synthetic tests for split isolation, sampler behaviour, BatchNorm freezing, checkpoint retention, class mapping, and inference status.
-4. Reduce the Potato notebook to a thin runner and reproduce the current result shape.
-5. Create corrected runners for the remaining crops using configuration, not copied training code.
-6. Revisit calibration/final-holdout design before making final model claims.
-7. Perform dataset auditing only after the user explicitly authorizes it.
+0. **Build the safe leaf/symptom segmentation and five-panel visual evidence report.** This is now the highest-priority feature path because it makes the model output understandable while exposing unreliable cases instead of hiding them.
+1. Define the visual-report contract: original image, leaf region, model-attention region, symptom-colour evidence, final possible-affected overlay, plus `ok` / `cannot_estimate` status.
+2. Implement the Potato version first as a separate post-inference module/section; do not merge it into training or checkpoint selection.
+3. Add refusal gates for low confidence, weak leaf mask, poor image quality, tiny leaf area, attention/evidence disagreement, and healthy predictions.
+4. Save visual artifacts and a small JSON report with labels that say `possible affected area estimate`, never `exact disease area`.
+5. Only after the visual-report path is stable, extract reusable Potato logic into a shared package without changing behaviour.
+6. Add synthetic tests for split isolation, sampler behaviour, BatchNorm freezing, checkpoint retention, class mapping, inference status, and visual-report refusal gates.
+7. Reduce the Potato notebook to a thin runner and reproduce the current result shape.
+8. Create corrected runners for the remaining crops using configuration, not copied training code.
+9. Revisit calibration/final-holdout design before making final model claims.
+10. Perform dataset auditing only after the user explicitly authorizes it.
+
+## Priority 0 TODO: safe segmentation and visual evidence report
+
+- [x] Create a Potato-only post-inference report section/module.
+- [x] Add a lightweight image-quality check: blur, exposure, minimum resolution, and leaf coverage.
+- [x] Create a leaf-region mask using conservative colour priors plus GrabCut/fallback logic.
+- [x] Generate Grad-CAM as `model attention`, not lesion area.
+- [x] Detect symptom-coloured pixels only inside the trusted leaf region.
+- [x] Combine leaf mask, attention support, and symptom evidence into a `possible affected area` overlay.
+- [x] Return `cannot_estimate` when gates fail instead of forcing a severity number.
+- [x] Save `original`, `leaf_region`, `attention_map`, `symptom_pixels`, `final_overlay`, and `report_summary.json`.
+- [ ] Run the demo cell in the user notebook environment and visually inspect the generated five-panel report.
+- [ ] Later, validate masks/severity against expert-labelled masks or grades before claiming production severity.
 
 ## Handoff rule
 

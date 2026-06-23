@@ -1,7 +1,7 @@
 # Potato Handoff
 
 Last verified: 23 June 2026  
-Status: corrected runner implemented and executed; not final validated model
+Status: corrected runner implemented and executed; safe visual report code added, demo execution pending
 
 ## Ownership
 
@@ -75,12 +75,18 @@ Champion: phase-one head. Phase two was stable but remained below the phase-one 
 
 ## Known remaining work
 
-1. Extract reusable logic into the shared pipeline package.
-2. Add synthetic tests for balanced sampling, BatchNorm freezing, global checkpoint retention, and class mapping.
-3. Decide the final calibration/holdout protocol before more test-driven tuning.
-4. Run the controlled seed set only after the shared pipeline is stable.
-5. Implement the safe visual report separately; do not restore the legacy severity logic unchanged.
-6. Export and benchmark only after the final training protocol is frozen.
+0. Potato safe leaf/symptom segmentation report code has been added to the corrected notebook; run the demo cell and inspect output next.
+1. Keep it post-inference only: it must not change training, checkpoint selection, or test metrics.
+2. Use the accepted Potato prediction plus calibrated confidence before generating any visual estimate.
+3. Add gates for image quality, leaf-mask trust, low confidence, healthy predictions, and attention/evidence disagreement.
+4. Five artifacts are produced by `create_visual_evidence_report`: original image, leaf region, model attention, symptom-coloured evidence, and final possible-affected overlay.
+5. JSON summary saving is implemented with `ok` or `cannot_estimate` and human-readable gate failures.
+6. Do not restore the legacy severity logic unchanged; reuse ideas only after adding refusal gates and safer labels.
+7. Extract reusable logic into the shared pipeline package.
+8. Add synthetic tests for balanced sampling, BatchNorm freezing, global checkpoint retention, class mapping, and visual-report refusal gates.
+9. Decide the final calibration/holdout protocol before more test-driven tuning.
+10. Run the controlled seed set only after the shared pipeline is stable.
+11. Export and benchmark only after the final training protocol is frozen.
 
 ## Legacy comparison
 

@@ -199,6 +199,57 @@ unsupported_input
 
 An accepted result should include crop, disease, calibrated confidence, top-two margin, top alternatives, architecture, preprocessing identity, and class-map identity. Uncertain or invalid results must not trigger treatment guidance.
 
+## Priority 0 visual evidence contract
+
+This work has become the highest-priority feature path because it turns a raw class prediction into an understandable farmer-facing report without pretending the system has lab-grade segmentation.
+
+The visual report is a post-inference layer. It must not influence training, checkpoint selection, test metrics, or class probabilities unless a future controlled experiment explicitly adds that behaviour.
+
+Required output panels:
+
+```text
+original image
+leaf region detected
+model attention region
+symptom-coloured evidence pixels
+final possible affected area overlay
+```
+
+Required report statuses:
+
+```text
+ok
+cannot_estimate
+invalid_image
+uncertain_prediction
+```
+
+Required refusal gates:
+
+- poor image quality;
+- insufficient leaf coverage;
+- failed or low-trust leaf segmentation;
+- low calibrated diagnosis confidence;
+- healthy prediction;
+- attention/evidence disagreement;
+- tiny or unstable evidence region.
+
+Allowed wording:
+
+```text
+possible affected area estimate
+symptom-coloured pixels
+model attention region
+leaf region detected
+```
+
+Forbidden wording until expert mask validation exists:
+
+```text
+exact disease area
+confirmed infected pixels
+validated severity percentage
+```
 ## Explainability and severity contract
 
 Grad-CAM is model attention. Never label its area directly as infected tissue.

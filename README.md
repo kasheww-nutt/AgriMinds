@@ -40,6 +40,8 @@ The first corrected notebook is [`Notebooks/crop approach/potato_corrected.ipynb
 
 The Android plan is to keep one final model for each crop and load only the model selected by the farmer. Running several large models for every photograph is not part of the current production plan.
 
+For a complete handoff into a new chat, start with [`Docs/README.md`](Docs/README.md). It links the verified context, decisions, pipeline rules, current state, crop handoffs, feature registry, and ready-to-copy prompts.
+
 ## Repository layout
 
 ```text
